@@ -51,3 +51,6 @@ may end up incorrect. Instead, give the model the correct word in the next step 
 - Need a data reader class
 
 -> Make Dataset Class
+
+- Been struggling with remembering all the pytorch conventions so im doing plenty of comments
+

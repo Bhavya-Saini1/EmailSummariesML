@@ -9,6 +9,7 @@ from Vocabulary import Vocabulary
 from Encoder import Encoder
 from Decoder import Decoder
 from Seq2Seq import Seq2Seq
+from save import save_checkpoint, load_checkpoint
 
 # hyperparameters
 input_size = 0 # will update after vocab is built
@@ -19,29 +20,22 @@ layers = 2
 dropout = 0.5
 batch_size = 32
 learning_rate = 0.001
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+if torch.backends.mps.is_available():
+    device = torch.device("mps")
+    print("Using Apple M4 GPU (MPS)")
+elif torch.cuda.is_available():
+    device = torch.device("cuda")
+    print("Using Nvidia GPU (CUDA)")
+else:
+    device = torch.device("cpu")
+    print("Using CPU")
 
 # data Preparation
+df = pd.read_csv('train.csv')
+df = df.dropna()
 
-data = {
-    'email': [
-        'meeting at 5 pm regarding the project',
-        'please send the report by friday',
-        'can we reschedule our call to monday',
-        'urgent update required for the client'
-    ],
-    'summary': [
-        'meeting 5pm',
-        'send report',
-        'reschedule call',
-        'client update'
-    ]
-}
-df = pd.DataFrame(data)
-
-# threshold can be 1 since we have tiny data
-vocab = Vocabulary(freq_threshold=1)
-all_text = df['email'].tolist() + df['summary'].tolist()
+vocab = Vocabulary(freq_threshold=3)
+all_text = df['email_body'].tolist() + df['subject_line'].tolist()
 vocab.build_vocabulary(all_text)
 
 # model Initialization
@@ -54,7 +48,7 @@ model = Seq2Seq(encoder, decoder, device).to(device)
 
 
 # dataLoader
-dataset = CustomDataset(df, vocab, 'email', 'summary')
+dataset = CustomDataset(df, vocab, 'email_body', 'subject_line')
 pad_idx = vocab.stoi["<PAD>"]
 loader = DataLoader(
     dataset=dataset,
@@ -73,7 +67,7 @@ optimizer = optim.Adam(model.parameters(), lr=learning_rate)
 criterion = nn.CrossEntropyLoss(ignore_index=pad_idx)
 
 # how many times to loop through the dataset
-num_epochs = 100
+num_epochs = 20
 
 for epoch in range(num_epochs):
     model.train()  # set to training mode
@@ -105,9 +99,11 @@ for epoch in range(num_epochs):
 
         epoch_loss += loss.item()
 
-    # prints average loss every 10 epochs
-    if (epoch + 1) % 10 == 0:
-        print(f'Epoch: {epoch + 1} | Loss: {epoch_loss / len(loader):.4f}')
+    print(f'Epoch: {epoch + 1} | Loss: {epoch_loss / len(loader):.4f}')
+
+    # saves every 5 epochs
+    if (epoch + 1) % 5 == 0:
+        save_checkpoint(model, optimizer)
 
 print("Training Done")
 

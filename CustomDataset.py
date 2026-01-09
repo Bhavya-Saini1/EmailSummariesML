@@ -37,6 +37,10 @@ class CustomDataset(Dataset):
         source_indices = self.vocab.numericalize(source_text)
         target_indices = self.vocab.numericalize(target_text)
 
+        #Shorten to avoid very long emails in training
+        source_indices = source_indices[:300]
+        target_indices = target_indices[:20]
+
         # add the SOS and EOS tokens
         source_list = [self.vocab.stoi["<SOS>"]] + source_indices + [self.vocab.stoi["<EOS>"]]
         target_list = [self.vocab.stoi["<SOS>"]] + target_indices + [self.vocab.stoi["<EOS>"]]

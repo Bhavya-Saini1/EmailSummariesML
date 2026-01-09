@@ -42,3 +42,12 @@ may end up incorrect. Instead, give the model the correct word in the next step 
 -> Made encoder.py file
 -> Made decoder.py file
 -> Made Seq2Seq.py file
+
+- Need to be able to tokenize the text in an email for the data to be processed by the model
+- this should be done in a seperate lexicon or vocab class
+
+-> Made Vocabulary.py file
+
+- Need a data reader class
+
+-> Make Dataset Class

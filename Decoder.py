@@ -1,4 +1,3 @@
-import torch
 import torch.nn as nn
 
 ''' The Decoder class generates a summary of the email given the context vector

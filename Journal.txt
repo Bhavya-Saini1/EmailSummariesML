@@ -48,9 +48,14 @@ may end up incorrect. Instead, give the model the correct word in the next step 
 
 -> Made Vocabulary.py file
 
-- Need a data reader class
+- Need a data reader/storer class for this
 
--> Make Dataset Class
+-> Made Dataset Class
 
 - Been struggling with remembering all the pytorch conventions so im doing plenty of comments
+- From what I've seen I'll need to pad out my data to have emails be of consistent length
+- use pytorch collate.fn
+
+-> Make Collate Class
+
 

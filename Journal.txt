@@ -157,3 +157,38 @@ Epoch: 100 | Loss: 0.0011
 Training Done
 
 - Got my model working for the first time with the dummy dataset
+
+ERROR:
+Traceback (most recent call last):
+  File "/Users/bhavyasaini/PycharmProjects/EmailSummariesML/training.py", line 159, in <module>
+    print(f"Summary: {predict(test_sentence)}")
+                      ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/bhavyasaini/PycharmProjects/EmailSummariesML/training.py", line 138, in predict
+    output, hidden, cell = model.decoder(previous_word, hidden, cell)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/bhavyasaini/PycharmProjects/CSC108 Assignment 2/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1775, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/bhavyasaini/PycharmProjects/CSC108 Assignment 2/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1786, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/bhavyasaini/PycharmProjects/EmailSummariesML/Decoder.py", line 46, in forward
+    output, (hidden, cell) = self.rnn(embedded, (hidden, cell))
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/bhavyasaini/PycharmProjects/CSC108 Assignment 2/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1775, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/bhavyasaini/PycharmProjects/CSC108 Assignment 2/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1786, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/bhavyasaini/PycharmProjects/CSC108 Assignment 2/.venv/lib/python3.11/site-packages/torch/nn/modules/rnn.py", line 1119, in forward
+    raise RuntimeError(msg)
+RuntimeError: For unbatched 2-D input, hx and cx should also be 2-D but got (3-D, 3-D) tensors
+
+- the prev word was 1d which was causing an error when  used as input
+
+TESTING:
+Original: please send the report by friday
+Summary: send report
+
+- Found the AESLC Enron Corpus as the best dataset to use one from Kaggle

@@ -110,3 +110,50 @@ for epoch in range(num_epochs):
         print(f'Epoch: {epoch + 1} | Loss: {epoch_loss / len(loader):.4f}')
 
 print("Training Done")
+
+
+def predict(sentence):
+    model.eval()
+    with torch.no_grad():
+        # process Input
+        tokens = vocab.tokenizer_eng(sentence)
+        indices = [vocab.stoi.get(t, vocab.stoi["<UNK>"]) for t in tokens]
+
+        # add <SOS> and <EOS>
+        indices = [vocab.stoi["<SOS>"]] + indices + [vocab.stoi["<EOS>"]]
+
+        # convert to tensor and add batch dimension
+        src_tensor = torch.LongTensor(indices).unsqueeze(0).to(device)
+
+        # feed into Encoder
+        hidden, cell = model.encoder(src_tensor)
+
+        # build Summary Word by Word
+        outputs = [vocab.stoi["<SOS>"]]
+
+        for _ in range(20):  # Max length 20 words
+            previous_word = torch.LongTensor([outputs[-1]]).unsqueeze(0).to(device)
+
+            with torch.no_grad():
+                output, hidden, cell = model.decoder(previous_word, hidden, cell)
+
+                # Get the highest probability
+                best_guess = output.argmax(1).item()
+
+            outputs.append(best_guess)
+
+            # stop if model predicts <EOS>
+            if best_guess == vocab.stoi["<EOS>"]:
+                break
+
+        # convert indices back to words
+        translated_sentence = [vocab.itos[idx] for idx in outputs]
+
+        return " ".join(translated_sentence[1:-1])
+
+
+# test with a sentence from training data
+print("\nTESTING:")
+test_sentence = "please send the report by friday"
+print(f"Original: {test_sentence}")
+print(f"Summary: {predict(test_sentence)}")

@@ -36,6 +36,9 @@ Goal: Create files and classes, make imports and add libraries.
 Reviewed: https://docs.pytorch.org/docs/stable/index.html
 Read: https://medium.com/@doublekien/lstm-with-pytorch-664065718df4
 
-- Made encoder.py file
-- Made decoder.py file
-- Make Seq2Seq.py file
+Concept: Teacher Forcing - If the model guesses the wrong word, the whole sentence
+may end up incorrect. Instead, give the model the correct word in the next step despite prediction.
+
+-> Made encoder.py file
+-> Made decoder.py file
+-> Made Seq2Seq.py file

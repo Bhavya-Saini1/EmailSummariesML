@@ -37,10 +37,10 @@ class Decoder(nn.Module):
     '''
     def forward(self, input, hidden, cell):
         # embedding expects dimension
-        input = input.unsqueeze(1)
+        # input = input.unsqueeze(1)
 
         # Look up each vector and apply dropout noise
-        embedded = self.dropout(self.embedding_size(input))
+        embedded = self.dropout(self.embedding(input))
 
         # Run the LSTM, given the previous hidden and cell states
         output, (hidden, cell) = self.rnn(embedded, (hidden, cell))

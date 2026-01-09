@@ -56,6 +56,104 @@ may end up incorrect. Instead, give the model the correct word in the next step 
 - From what I've seen I'll need to pad out my data to have emails be of consistent length
 - use pytorch collate.fn
 
--> Make Collate Class
+-> Made Collate Class
+-> Make a main file to run code and train model
 
+- Realized to document errors too
 
+ERROR:
+Traceback (most recent call last):
+  File "/Users/bhavyasaini/PycharmProjects/EmailSummariesML/training.py", line 43, in <module>
+    vocab = Vocabulary(freq_threshold=1)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/bhavyasaini/PycharmProjects/EmailSummariesML/Vocabulary.py", line 23, in __init__
+    self.spacy_eng = spacy.load("en_core_web_sm")
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/bhavyasaini/PycharmProjects/CSC108 Assignment 2/.venv/lib/python3.11/site-packages/spacy/__init__.py", line 52, in load
+    return util.load_model(
+           ^^^^^^^^^^^^^^^^
+  File "/Users/bhavyasaini/PycharmProjects/CSC108 Assignment 2/.venv/lib/python3.11/site-packages/spacy/util.py", line 531, in load_model
+    raise IOError(Errors.E050.format(name=name))
+OSError: [E050] Can't find model 'en_core_web_sm'. It doesn't seem to be a Python package or a valid path to a data directory.
+
+- I need to install spacy via terminal but PyCharm terminal wont let me, I'll just do it in the file
+
+ERROR:
+Traceback (most recent call last):
+  File "/Users/bhavyasaini/PycharmProjects/EmailSummariesML/training.py", line 87, in <module>
+    output = model(src, trg)
+             ^^^^^^^^^^^^^^^
+  File "/Users/bhavyasaini/PycharmProjects/CSC108 Assignment 2/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1775, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/bhavyasaini/PycharmProjects/CSC108 Assignment 2/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1786, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/bhavyasaini/PycharmProjects/EmailSummariesML/Seq2Seq.py", line 47, in forward
+    output, hidden, cell = self.decoder(input, hidden, cell)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/bhavyasaini/PycharmProjects/CSC108 Assignment 2/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1775, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/bhavyasaini/PycharmProjects/CSC108 Assignment 2/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1786, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/bhavyasaini/PycharmProjects/EmailSummariesML/Decoder.py", line 43, in forward
+    embedded = self.dropout(self.embedding_size(input))
+                            ^^^^^^^^^^^^^^^^^^^
+  File "/Users/bhavyasaini/PycharmProjects/CSC108 Assignment 2/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1964, in __getattr__
+    raise AttributeError(
+AttributeError: 'Decoder' object has no attribute 'embedding_size'
+
+- Simple naming error when i was writing the Decoder
+
+ERROR:
+Traceback (most recent call last):
+  File "/Users/bhavyasaini/PycharmProjects/EmailSummariesML/training.py", line 87, in <module>
+    output = model(src, trg)
+             ^^^^^^^^^^^^^^^
+  File "/Users/bhavyasaini/PycharmProjects/CSC108 Assignment 2/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1775, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/bhavyasaini/PycharmProjects/CSC108 Assignment 2/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1786, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/bhavyasaini/PycharmProjects/EmailSummariesML/Seq2Seq.py", line 47, in forward
+    output, hidden, cell = self.decoder(input, hidden, cell)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/bhavyasaini/PycharmProjects/CSC108 Assignment 2/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1775, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/bhavyasaini/PycharmProjects/CSC108 Assignment 2/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1786, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/bhavyasaini/PycharmProjects/EmailSummariesML/Decoder.py", line 46, in forward
+    output, (hidden, cell) = self.rnn(embedded, (hidden, cell))
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/bhavyasaini/PycharmProjects/CSC108 Assignment 2/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1775, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/bhavyasaini/PycharmProjects/CSC108 Assignment 2/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1786, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/bhavyasaini/PycharmProjects/CSC108 Assignment 2/.venv/lib/python3.11/site-packages/torch/nn/modules/rnn.py", line 1078, in forward
+    raise ValueError(
+ValueError: LSTM: Expected input to be 2D or 3D, got 4D instead
+
+- I'm adding to many dimensions I'll just get rid of the extra one in the decoder
+
+MODEL TRAINING:
+
+Epoch: 10 | Loss: 1.3080
+Epoch: 20 | Loss: 0.1624
+Epoch: 30 | Loss: 0.0324
+Epoch: 40 | Loss: 0.0088
+Epoch: 50 | Loss: 0.0038
+Epoch: 60 | Loss: 0.0027
+Epoch: 70 | Loss: 0.0017
+Epoch: 80 | Loss: 0.0015
+Epoch: 90 | Loss: 0.0012
+Epoch: 100 | Loss: 0.0011
+Training Done
+
+- Got my model working for the first time with the dummy dataset

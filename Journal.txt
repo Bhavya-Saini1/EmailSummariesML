@@ -1,6 +1,24 @@
 JOURNAL:
 
 Description: Full documentation of process for creating project including challenges faced, websites referenced, etc.
+Legend: -> are steps take, - are ideas/thought processes
 
 PHASE 1: PLANNING
 
+Reviewed Documentation principles: https://github.com/resources/articles/tools-and-techniques-for-effective-code-documentation
+
+Goal: Use Classic ML for Email Summary
+
+- Most Summarizers found in online research use a LLM API, not relevant to project goal of ground-up NLP
+    e.g. https://builder.aws.com/content/36L4zbM3nct3QotI2zbXoCob42e/automating-email-overload-how-i-built-an-ai-email-summarizer-in-one-afternoon
+- I could test word frequency to find important sentences, but that wouldn't use ML
+- Project goal does not fit neatly into Supervised Learning or Unsupervsied Learning as it is a generative problem not classificaiton based
+- Must create some type of generative model
+
+Queried with Gemini: https://gemini.google.com/share/a2bb40ddc653
+
+- Using a Deep Learning (DL) Model, implementing Recurrent Neural Network (RNN) is a good approach for my scope
+
+Revised Goal: Use Sequential to Sequential (Seq2Seq) DL Model for Email Summary
+
+Next Steps: Setup enviornment with PyTorch to begin next steps of Data Collection & Preparation

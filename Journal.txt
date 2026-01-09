@@ -22,3 +22,19 @@ Queried with Gemini: https://gemini.google.com/share/a2bb40ddc653
 Revised Goal: Use Sequential to Sequential (Seq2Seq) DL Model for Email Summary
 
 Next Steps: Setup enviornment with PyTorch to begin next steps of Data Collection & Preparation
+
+
+PHASE 2: SETUP
+
+Goal: Create files and classes, make imports and add libraries.
+
+- Specific to a Seq2Seq Long Short-Term Memory (LSTM) where LSTM allows for the use of gates to decide which data is forgotten and rememebered
+- This type of model will require a Encoder RNN to create context values
+- Additionally, a Decoder RNN to generate summary based off context
+- and then an app interface to do both at once
+
+Reviewed: https://docs.pytorch.org/docs/stable/index.html
+Read: https://medium.com/@doublekien/lstm-with-pytorch-664065718df4
+
+- Made encoder.py file
+- Making decoder.py

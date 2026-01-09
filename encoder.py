@@ -8,7 +8,7 @@ class Encoder(nn.Module):
     ''' The constructor method to define the main components of the model
     @Param
     input_size: the size of the working languages in n words
-    output_size: the size of the context vector created
+    embedding_size: the size of the context vector created
     hidden_size: number of neurons in the hidden LSTM layer
     layers: number of LSTM layers stacked together
     dropout: probability a neuron is turned off during training

@@ -37,4 +37,5 @@ Reviewed: https://docs.pytorch.org/docs/stable/index.html
 Read: https://medium.com/@doublekien/lstm-with-pytorch-664065718df4
 
 - Made encoder.py file
-- Making decoder.py
+- Made decoder.py file
+- Make Seq2Seq.py file

@@ -1,0 +1,14 @@
+__pycache__/
+*.py[cod]
+
+.idea/
+.vscode/
+
+.venv/
+venv/
+env/
+
+*.pth.tar
+*.pt
+
+.DS_Store
